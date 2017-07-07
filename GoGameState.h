@@ -1,5 +1,5 @@
 #ifndef GO_GAMESTATE_H
-#define GOBOARD_H
+#define GO_GAMESTATE_H
 
 enum class CellState{EMPTY, BLACK, WHITE};
 
@@ -13,18 +13,15 @@ struct GoGameState {
    int black_dead; //number of black stones captured
 
    //constructor
-   GoGameState(int size);
+   GoGameState(int);
 
    //helper functions
-   void setCell(int x, int y, CellState cs);
-   CellState getCell(int x, int y);
-   
-   void kill_white();
-   void kill_black();
-   int  get_white_dead();
-   int get_black_dead();
+   void setCell(Coordinate, CellState);
+   CellState getCell(Coordinate);
 
+   void killCell(Coordinate);
+   int  getWhiteDead();
+   int getBlackDead();
 };
-
 
 #endif /* GO_GAMESTATE_H */
