@@ -1,21 +1,29 @@
 #ifndef GO_GAMESTATE_H
 #define GOBOARD_H
 
-enum MicroState{EMPTY, BLACK, WHITE};
+enum class CellState{EMPTY, BLACK, WHITE};
 
-struct GoBoard {
+struct GoGameState {
+	//board
    int size;
-   vector<vector<MicroState>>;
-};
+   vector<vector<CellState>> grid;
 
-struct GoStoneCaptures {
+   //captured stones
    int white_dead; //number of white stones captured
    int black_dead; //number of black stones captured
-};
 
-class GoGameState {
-   //board state
-   //stone state
+   //constructor
+   GoGameState(int size);
+
+   //helper functions
+   void setCell(int x, int y, CellState cs);
+   CellState getCell(int x, int y);
+   
+   void kill_white();
+   void kill_black();
+   int  get_white_dead();
+   int get_black_dead();
+
 };
 
 
