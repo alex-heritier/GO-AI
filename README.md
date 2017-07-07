@@ -1,2 +1,3 @@
 # GO-AI
-A highly sophisticated AI for Go.
+A very highly sophisticated AI for Go.
+
