@@ -1,12 +1,16 @@
 #ifndef GO_GAMESTATE_H
 #define GO_GAMESTATE_H
 
+#include <vector>
+
+#include "Coordinate.h"
+
 enum class CellState{EMPTY, BLACK, WHITE};
 
 struct GoGameState {
 	//board
    int size;
-   vector<vector<CellState>> grid;
+   std::vector<std::vector<CellState> > grid;
 
    //captured stones
    int white_dead; //number of white stones captured
@@ -16,12 +20,13 @@ struct GoGameState {
    GoGameState(int);
 
    //helper functions
-   void setCell(Coordinate, CellState);
-   CellState getCell(Coordinate);
+   CellState setCell(const Coordinate&, const CellState);
+   CellState getCell(const Coordinate&) const;
 
-   void killCell(Coordinate);
-   int  getWhiteDead();
-   int getBlackDead();
+   void killWhite();
+   void killBlack();
+   int getWhiteDead() const;
+   int getBlackDead() const;
 };
 
 #endif /* GO_GAMESTATE_H */
