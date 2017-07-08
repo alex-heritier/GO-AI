@@ -1,7 +1,7 @@
-MODULES = GoGameState
+MODULES = GoGameState Coordinate
 HDRSRC  = ${MODULES:=.h}
-CPPSRC  = ${MODULES:=.c} test.cpp
-OBJECTS = ${CPPSRC:.c=.o}
+CPPSRC  = ${MODULES:=.cpp} TestGoState.cpp
+OBJECTS = ${CPPSRC:.cpp=.o}
 EXECBIN = test
 
 CPP = g++ -g -O0 -Wall -Wextra -std=gnu++14
@@ -12,4 +12,4 @@ ${EXECBIN} : ${OBJECTS}
 	${CPP} -o ${EXECBIN} ${OBJECTS}
 
 ${OBJECTS} : ${CPPSRC}
-	${CPP} -c $<
+	${CPP} -c ${CPPSRC}

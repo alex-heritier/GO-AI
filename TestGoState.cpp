@@ -1,20 +1,24 @@
-#include <stdlib>
-#include <stdio>
+
+#include <iostream>
 #include "GoGameState.h"
 
 using namespace std;
 
 string shortHand(CellState cs) {
-     if(cs == CellState.BLACK) return "b";
-     if(cs == CellState.WHITE) return "w";
-     return "-";
+     if(cs == CellState::BLACK) return "*";
+     if(cs == CellState::WHITE) return "o";
+     return "+";
 }
 
 void printGoState(GoGameState gs) {
-     for(int y = gs.size; y > 0; y++) {
+     for(int y = gs.size-1; y >= 0; y++) {
            for(int x = 0; x < gs.size; x++) {
-                Coordinate c = new Coordinate(x,y);
-                CellState cs = gs.getCell(c);
+                Coordinate c(x,y);
+
+                //cout << "x: " << x << ", y: " << y << endl;
+
+                CellState cs = gs.grid[x][y];;
+                //CellState cs = gs.getCell(c);
                 cout << shortHand(cs);
            }
            cout << "\n";
@@ -23,8 +27,9 @@ void printGoState(GoGameState gs) {
 
 int main() {
      //build a gamestate
-     gs = new GoGameState(19);
-     
+     GoGameState gs(19);
+
+     cout<< "flag1" << endl;
      //print gamestate
      printGoState(gs);
 
