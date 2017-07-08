@@ -4,11 +4,10 @@
 #include "GoGameState.h"
 
 GoGameState::GoGameState(int size): size(size) {
-    for (auto it1 = grid.begin(); it1 != grid.end(); ++it1) {
-        auto &currentColumn = *it1;
-
-        for (auto it2 = currentColumn.begin(); it2 != currentColumn.end(); ++it2) {
-            (*it2) = CellState::EMPTY;
+    for (int i = 0; i < size; i++) {
+        grid.push_back(std::vector<CellState>());
+        for (int j = 0; j < size; j++) {
+            grid[i].push_back(CellState::EMPTY);
         }
     }
 }
