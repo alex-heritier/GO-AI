@@ -3,7 +3,15 @@
 
 #include "GoGameState.h"
 
-GoGameState::GoGameState(int size): size(size) {}
+GoGameState::GoGameState(int size): size(size) {
+    for (auto it1 = grid.begin(); it1 != grid.end(); ++it1) {
+        auto &currentColumn = *it1;
+
+        for (auto it2 = currentColumn.begin(); it2 != currentColumn.end(); ++it2) {
+            (*it2) = CellState::EMPTY;
+        }
+    }
+}
 
 /*
  set cell pointed to by 'coord' to value 'cs'
