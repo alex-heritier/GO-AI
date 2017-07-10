@@ -4,6 +4,8 @@
 #include "GoGameState.h"
 
 GoGameState::GoGameState(int size): size(size) {
+    std::cout << "size: " << size << std::endl;
+
     for (int i = 0; i < size; i++) {
         grid.push_back(std::vector<CellState>());
         for (int j = 0; j < size; j++) {
