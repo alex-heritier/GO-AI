@@ -5,13 +5,22 @@
 #include "GoPlayer.h"
 
 class GoGame {
+   //game info
    GoGameState board;
-   int turn_num;
+   vector<Coordinate> history;
+   int turn;
+   //players
+   GoPlayer black;
+   GoPlayer white;
 
    //constructor
    GoGame(GoPlayer black, GoPlayer white);
 
-   //
+   //play game
+   void PlayGame();
+
+   //helper functions
+   
 }
 
 

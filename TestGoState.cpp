@@ -1,6 +1,8 @@
 
 #include <iostream>
+
 #include "GoGameState.h"
+#include "GoView.h"
 
 using namespace std;
 
@@ -63,6 +65,9 @@ int main() {
    int i;
    cin >> i;
    cout << i;
+
+   GoView view(gs, string("GO AI"), 1000, 600);
+   view.run();
 
    return 0;
 }
