@@ -3,7 +3,8 @@
 
 #include "GoGameState.h"
 
-GoGameState::GoGameState(int size): size(size) {
+GoGameState::GoGameState(int size):
+   size(size), white_dead(0), black_dead(0) {
     for (int i = 0; i < size; i++) {
         grid.push_back(std::vector<CellState>());
         for (int j = 0; j < size; j++) {
