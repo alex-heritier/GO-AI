@@ -4,8 +4,6 @@
 #include "GoGameState.h"
 
 GoGameState::GoGameState(int size): size(size) {
-    std::cout << "size: " << size << std::endl;
-
     for (int i = 0; i < size; i++) {
         grid.push_back(std::vector<CellState>());
         for (int j = 0; j < size; j++) {
@@ -27,8 +25,8 @@ CellState GoGameState::setCell(const Coordinate &coord, const CellState cs)
         std::cerr << "ERROR: GoGameState::setCell - coordinates out of bounds" << std::endl;
     }
 
-    CellState oldState = grid[coord.getX()][coord.getY()];
-    grid[coord.getX()][coord.getY()] = cs;
+    CellState oldState = grid[x][y];
+    grid[x][y] = cs;
 
     return oldState;
 }
@@ -45,7 +43,7 @@ CellState GoGameState::getCell(const Coordinate &coord) const
         std::cerr << "ERROR: GoGameState::setCell - coordinates out of bounds" << std::endl;
     }
 
-    return grid[coord.getX()][coord.getY()];
+    return grid[x][y];
 }
 
 /*

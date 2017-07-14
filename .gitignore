@@ -1,3 +1,6 @@
 *.o
 *.dSYM
 .DS_Store
+test
+goai
+go-ai

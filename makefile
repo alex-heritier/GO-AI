@@ -1,11 +1,10 @@
-MODULES = GoGameState Coordinate
+MODULES = GoGameState Coordinate Utility GoView GoBoardView GoDataView
 HDRSRC  = ${MODULES:=.h}
 CPPSRC  = ${MODULES:=.cpp} TestGoState.cpp
 OBJECTS = ${CPPSRC:.cpp=.o}
-EXECBIN = test
-SFMLO 	= -F /Library/Frameworks -framework OpenGL -framework SFML -framework SFML-window
-SFMLC 	= -F /Library/Frameworks
-
+EXECBIN = go-ai
+SFMLO 	= -F /Library/Frameworks -framework OpenGL -framework sfml -framework sfml-system -framework sfml-window -framework sfml-graphics
+SFMLC 	= -I /usr/local/include/
 CPP = g++ -g -O0 -Wall -Wextra -std=gnu++14
 
 all: ${EXECBIN}
