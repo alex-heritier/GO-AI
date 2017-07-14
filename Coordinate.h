@@ -8,7 +8,7 @@ public:
     int getY() const;
     void setX(int);
     void setY(int);
-
+    Coordinate &operator=(const Coordinate &coord);
 private:
     int x;
     int y;

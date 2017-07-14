@@ -11,7 +11,7 @@
 class GoDataView {
 public:
     GoDataView(const GoGameState &gs);
-    void draw(sf::RenderWindow &window);
+    void draw(sf::RenderWindow &window, int width, int height);
 private:
     const GoGameState &goGameState;
 };
