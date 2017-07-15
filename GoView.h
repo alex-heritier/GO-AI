@@ -12,13 +12,13 @@
 
 class GoView {
 public:
-    GoView(const GoGameState &gs, const std::string &title, int width, int height);
+    GoView(GoGameState &gs, const std::string &title, int width, int height);
     int run();
     void end();
 private:
     // data
     sf::RenderWindow window;
-    const GoGameState &goGameState;
+    GoGameState &goGameState;
     std::string title;
     int width;
     int height;
@@ -27,6 +27,7 @@ private:
     GoDataView dataView;
 
     // methods
+    void TEMPrespondToClick(sf::Event &event);
     void processInput(std::vector<sf::Event> &eventList);
     void updateDisplay();
 };
