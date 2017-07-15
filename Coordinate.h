@@ -1,6 +1,8 @@
 #ifndef COORDINATE_H
 #define COORDINATE_H
 
+#include <iostream>
+
 class Coordinate {
 public:
     Coordinate(int x, int y);
@@ -13,5 +15,7 @@ private:
     int x;
     int y;
 };
+
+std::ostream &operator<<(std::ostream &out, const Coordinate &coord);
 
 #endif

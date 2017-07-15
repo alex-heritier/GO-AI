@@ -23,6 +23,7 @@ int calculateFrameSleepTime(sf::Time time, int fps)
 /* Class methods */
 GoView::GoView(const GoGameState &gs, const std::string &t, int w, int h):
     window(sf::VideoMode(w, h), t),
+    goGameState(gs),
     title(t),
     width(w),
     height(h),
@@ -42,6 +43,11 @@ void GoView::processInput(std::vector<sf::Event> &eventList)
             Logger(LogType::INFO).put("Window being closed from GoView.");
             window.close();
             return;
+        }
+
+        if (event.type == sf::Event::MouseButtonPressed) {
+            goGameState.clickedPixel = Coordinate(event.mouseButton.x, event.mouseButton.y);
+            std::cout << goGameState.clickedPixel << std::endl;
         }
 
         // add event to eventList

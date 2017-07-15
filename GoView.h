@@ -18,6 +18,7 @@ public:
 private:
     // data
     sf::RenderWindow window;
+    const GoGameState &goGameState;
     std::string title;
     int width;
     int height;
