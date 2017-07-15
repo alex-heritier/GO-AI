@@ -3,10 +3,13 @@
 
 #include "GoGameState.h"
 #include "GoPlayer.h"
+#include "Coordinate.h"
+
+enum class PlayerColor{BLACK, WHITE};
 
 class GoGame {
    //game info
-   GoGameState board;
+   GoGameState state;
    vector<Coordinate> history;
    int turn;
    //players
@@ -14,13 +17,16 @@ class GoGame {
    GoPlayer white;
 
    //constructor
-   GoGame(GoPlayer black, GoPlayer white);
+   GoGame(int size, GoPlayer black, GoPlayer white);
 
    //play game
-   void PlayGame();
+   void PlayGame(bool display = false);
 
    //helper functions
-   
+
+   //debug display functions
+
+
 }
 
 
