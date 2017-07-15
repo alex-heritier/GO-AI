@@ -6,10 +6,12 @@
 #include "Coordinate.h"
 
 enum class CellState{EMPTY, BLACK, WHITE};
+enum class PlayerColor{BLACK, WHITE};
 
 struct GoGameState {
 	//board
    int size;
+   int turn;
    std::vector<std::vector<CellState> > grid;
 
    //captured stones
@@ -30,6 +32,9 @@ struct GoGameState {
    void killBlack();
    int getWhiteDead() const;
    int getBlackDead() const;
+
+   int getTurn() const;
+   int endTurn();
 };
 
 #endif /* GO_GAMESTATE_H */

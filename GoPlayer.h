@@ -8,8 +8,11 @@
 #include "GoGameState.h"
 
 class GoPlayer {
+protected:
+   PlayerColor color;
 public:
-   Coordinate NextAction(GoGameState state);
+   GoPlayer(PlayerColor _color);
+   virtual Coordinate NextAction(GoGameState state);
 };
 
 #endif

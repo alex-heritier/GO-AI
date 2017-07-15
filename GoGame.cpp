@@ -6,42 +6,71 @@
 
 using namespace std;
 
-GoGame::GoGame(int size, GoPlayer _black, GoPlayer _white):
+GoGame::GoGame(int size, GoPlayer &_black, GoPlayer &_white):
    state(size),
-   turn(0),
    black(_black),
    white(_white)
    {}
 
+//playes whole game
 void GoGame::PlayGame(bool display) {
    Coordinate nextMove(1,1);
+
+   //debug display
+   if(display)
+      printGoState(state);
+
    while(true) {
+
       //black plays
       nextMove = black.NextAction(state);
-      //LogMove(nextMove)
-      PlayMove(nextMove, PlayerColor::BLACK);
+      while( !PlayMove(nextMove, PlayerColor::BLACK) ) {
+         cout << "An illegal move was played!";
+         nextMove = black.NextAction(state);
+         //LogMove(nextMove) //TODO
+      }
 
       //debug display
-      if(display)
-         printGoState(state);
+      if(display) printGoState(state);
 
       //white plays
       nextMove = white.NextAction(state);
-      //LogMove(nextMove)
-      PlayMove(nextMove, PlayerColor::WHITE);
+      while( !PlayMove(nextMove, PlayerColor::WHITE) ) {
+         cout << "An illegal move was played!";
+         nextMove = white.NextAction(state);
+         //LogMove(nextMove) //TODO
+      }
 
       //debug display
-      if(display)
-         printGoState(state);
+      if(display) printGoState(state);
    }
 }
 
-//to be made more intricate later
-void GoGame::PlayMove(Coordinate nextMove, PlayerColor color) {
+//functions which enforce go rules ------------------------------------
+
+//updates gamestate and returns true if move is legal
+//else returns false
+bool GoGame::PlayMove(Coordinate nextMove, PlayerColor color) {
+   int isLegalMove = true;
+
+   //check if coordinate already occupied
+
+   //temporarily place stone ub in coordinate
+
+   //capture enemy stones if possible
+
+   //check if in a captured state,
+   //if so remove stone and return false
+
+
+
    if(color == PlayerColor::BLACK)
       state.setCell(nextMove, CellState::BLACK);
    if(color == PlayerColor::WHITE)
       state.setCell(nextMove, CellState::WHITE);
+
+   if(isLegalMove) state.endTurn();
+   return isLegalMove;
 }
 
 //debug display functions ----------------------------------------------
@@ -72,5 +101,7 @@ void GoGame::printGoState(GoGameState gs) {
       cout << "\n";
    }
    cout << "white dead: " << gs.getWhiteDead() << " | ";
-   cout << "black dead: " << gs.getBlackDead() << "\n";
+   cout << "black dead: " << gs.getBlackDead() << " | ";
+   gs.turn%2 == 0? cout << "black " : cout << "white ";
+   cout << "to play \n";
 }

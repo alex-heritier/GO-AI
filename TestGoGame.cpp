@@ -2,14 +2,15 @@
 #include <iostream>
 
 #include "GoGame.h"
-#include "GoPlayer.h"
+#include "GoGameState.h"
+#include "GoPlayerHuman.h"
 
 using namespace std;
 
 int main() {
    //Start new game
-   GoPlayer black;
-   GoPlayer white;
+   GoPlayerHuman black(PlayerColor::BLACK);
+   GoPlayerHuman white(PlayerColor::WHITE);
 
    GoGame game(19, black, white);
 
