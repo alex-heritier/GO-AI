@@ -1,4 +1,6 @@
 
+#include <iostream>
+
 #include "Coordinate.h"
 
 Coordinate::Coordinate(int x, int y): x(x), y(y) {}
@@ -11,8 +13,13 @@ void Coordinate::setY(int y) { Coordinate::y = y; }
 
 Coordinate &Coordinate::operator=(const Coordinate &coord)
 {
-    x = coord.x;
-    y = coord.y;
+    setX(coord.x);
+    setY(coord.y);
 
     return *this;
 }
+
+std::ostream &operator<<(std::ostream& out, const Coordinate &coord) {
+    out << "(" << coord.getX() << ", " << coord.getY() << ")";
+    return out;
+ }
