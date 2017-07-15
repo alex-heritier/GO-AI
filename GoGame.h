@@ -5,9 +5,12 @@
 #include "GoPlayer.h"
 #include "Coordinate.h"
 
+using namespace std;
+
 enum class PlayerColor{BLACK, WHITE};
 
 class GoGame {
+public:
    //game info
    GoGameState state;
    vector<Coordinate> history;
@@ -22,12 +25,14 @@ class GoGame {
    //play game
    void PlayGame(bool display = false);
 
+private:
+   void PlayMove(Coordinate nextMove, PlayerColor color);
+   void printGoState(GoGameState gs);
    //helper functions
 
    //debug display functions
 
-
-}
+};
 
 
 #endif /* GOGAMEENGINE_H */

@@ -1,6 +1,6 @@
-MODULES = GoGameState Coordinate Utility GoView GoBoardView GoDataView
+MODULES = GoGame GoPlayer GoGameState Coordinate Utility GoView GoBoardView GoDataView 
 HDRSRC  = ${MODULES:=.h}
-CPPSRC  = ${MODULES:=.cpp} TestGoState.cpp
+CPPSRC  = ${MODULES:=.cpp} TestGoGame.cpp
 OBJECTS = ${CPPSRC:.cpp=.o}
 EXECBIN = go-ai
 SFMLO 	= -F /Library/Frameworks -framework OpenGL -framework sfml -framework sfml-system -framework sfml-window -framework sfml-graphics

@@ -4,6 +4,8 @@
 #include "GoGame.h"
 #include "Coordinate.h"
 
+using namespace std;
+
 GoGame::GoGame(int size, GoPlayer _black, GoPlayer _white):
    state(size),
    turn(0),
@@ -12,7 +14,7 @@ GoGame::GoGame(int size, GoPlayer _black, GoPlayer _white):
    {}
 
 void GoGame::PlayGame(bool display) {
-   Coordinate nextMove;
+   Coordinate nextMove(1,1);
    while(true) {
       //black plays
       nextMove = black.NextAction(state);
@@ -24,8 +26,9 @@ void GoGame::PlayGame(bool display) {
          printGoState(state);
 
       //white plays
+      nextMove = white.NextAction(state);
       //LogMove(nextMove)
-      PlayMove(nextMove, PlayerColor::BLACK);
+      PlayMove(nextMove, PlayerColor::WHITE);
 
       //debug display
       if(display)
@@ -35,9 +38,9 @@ void GoGame::PlayGame(bool display) {
 
 //to be made more intricate later
 void GoGame::PlayMove(Coordinate nextMove, PlayerColor color) {
-   if(color = PlayerColor::BLACK)
+   if(color == PlayerColor::BLACK)
       state.setCell(nextMove, CellState::BLACK);
-   if(color = PlayerColor::WHITE)
+   if(color == PlayerColor::WHITE)
       state.setCell(nextMove, CellState::WHITE);
 }
 
@@ -47,14 +50,21 @@ string shortHand(CellState cs) {
    if(cs == CellState::WHITE) return "W";
    return "+";
 }
-void printGoState(GoGameState gs) {
+bool isStarCoord(Coordinate c) {
+   int x = c.getX();
+   int y = c.getY();
+   bool val = x == 3 || x == 9 || x == 15;
+   val = val && (y == 3 || y == 9 || y == 15);
+   return val;
+}
+void GoGame::printGoState(GoGameState gs) {
    string output;
    for(int y = gs.size-1; y >= 0; y--) {
       for(int x = 0; x < gs.size; x++) {
          Coordinate c(x,y);
          CellState cs = gs.getCell(c);
          output = shortHand(cs);
-         if(output == "+" && isStarCoord(c)) {
+         if(output == "+" && isStarCoord(c) && gs.size == 19) {
             output = "x";
          }
          cout << output << " ";

@@ -3,6 +3,9 @@
 
 #include "Coordinate.h"
 #include "GoGameState.h"
+#include "GoPlayer.h"
+
+using namespace std;
 
 Coordinate GoPlayer::NextAction(GoGameState state) {
    int x,y;
