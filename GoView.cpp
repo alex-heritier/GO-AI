@@ -54,17 +54,18 @@ void GoView::updateDisplay()
     window.clear();
 
     // draw the Go board
-    sf::View v1(sf::FloatRect(0, 0, 600, 600));
+    sf::View v1(sf::FloatRect(0, 0, 0.6 * width, height));
     v1.setViewport(sf::FloatRect(0, 0, 0.6f, 1));
     window.setView(v1);
-    boardView.draw(window);
+    boardView.draw(window, 0.6 * width, height);
 
     // draw the game data
-    sf::View v2(sf::FloatRect(0, 0, 400, 600));
+    sf::View v2(sf::FloatRect(0, 0, 0.4 * width, height));
     v2.setViewport(sf::FloatRect(0.6f, 0, 0.4f, 1));
     window.setView(v2);
-    dataView.draw(window);
+    dataView.draw(window, 0.4 * width, height);
 
+    window.setView(window.getDefaultView());
     window.display();
 }
 
