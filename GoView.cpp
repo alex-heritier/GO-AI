@@ -21,7 +21,7 @@ int calculateFrameSleepTime(sf::Time time, int fps)
 }
 
 /* Class methods */
-GoView::GoView(const GoGameState &gs, const std::string &t, int w, int h):
+GoView::GoView(GoGameState &gs, const std::string &t, int w, int h):
     window(sf::VideoMode(w, h), t),
     goGameState(gs),
     title(t),
@@ -45,10 +45,7 @@ void GoView::processInput(std::vector<sf::Event> &eventList)
             return;
         }
 
-        if (event.type == sf::Event::MouseButtonPressed) {
-            goGameState.clickedPixel = Coordinate(event.mouseButton.x, event.mouseButton.y);
-            std::cout << goGameState.clickedPixel << std::endl;
-        }
+        TEMPrespondToClick(event);
 
         // add event to eventList
         eventList.push_back(event);
@@ -73,6 +70,45 @@ void GoView::updateDisplay()
 
     window.setView(window.getDefaultView());
     window.display();
+}
+
+void GoView::TEMPrespondToClick(sf::Event &event)
+{
+    static bool player = false;
+
+    if (event.type == sf::Event::MouseButtonPressed) {
+        goGameState.clickedPixel = Coordinate(event.mouseButton.x, event.mouseButton.y);
+        Coordinate &cpix = goGameState.clickedPixel;
+        std::cout << "Clicked pixel: " << goGameState.clickedPixel << std::endl;
+
+        const int PADDING = 12;
+        const int N = goGameState.size;
+        const int CELL_WIDTH = (600 - 2 * PADDING) / N;
+        const int CELL_HEIGHT = (600 - 2 * PADDING) / N;
+
+        int x = (cpix.getX() - PADDING + (CELL_WIDTH / 2)) / CELL_WIDTH ;
+        int y = ((600 - cpix.getY() - PADDING + (CELL_HEIGHT / 2)) / CELL_HEIGHT);
+
+        std::cout << "X: " << x << ", Y: " << y << std::endl;
+
+        if (x < 0)
+            x = 0;
+        else if (x >= goGameState.size)
+            x = goGameState.size;
+
+        if (y < 0)
+            y = 0;
+        else if (y >= goGameState.size)
+            y = goGameState.size;
+
+        Coordinate coord(x, y);
+
+        std::cout << "X: " << x << ", Y: " << y << std::endl;
+
+        goGameState.setCell(coord, player ? CellState::WHITE : CellState::BLACK);
+
+        player = !player;
+    }
 }
 
 int GoView::run()
