@@ -22,7 +22,7 @@ CellState GoGameState::setCell(const Coordinate &coord, const CellState cs)
     int x = coord.getX();
     int y = coord.getY();
 
-    if (x < 0 || x >= size || y < 0 || y >= size) {
+    if (x < 0 || x > size || y < 0 || y > size) {
         std::cerr << "ERROR: GoGameState::setCell - coordinates out of bounds" << std::endl;
     }
 
@@ -40,7 +40,7 @@ CellState GoGameState::getCell(const Coordinate &coord) const
     int x = coord.getX();
     int y = coord.getY();
 
-    if (x < 0 || x >= size || y < 0 || y >= size) {
+    if (x < 0 || x > size || y < 0 || y > size) {
         std::cerr << "ERROR: GoGameState::setCell - coordinates out of bounds" << std::endl;
     }
 

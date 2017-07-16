@@ -86,6 +86,11 @@ void GoView::TEMPrespondToClick(sf::Event &event)
         const int CELL_WIDTH = (600 - 2 * PADDING) / N;
         const int CELL_HEIGHT = (600 - 2 * PADDING) / N;
 
+        sf::Vector2f adjustedPixel(window.mapPixelToCoords(sf::Vector2i(cpix.getX(), cpix.getY())));
+        std::cout << "Adjusted pixel: (" << adjustedPixel.x << ", " << adjustedPixel.y << ")" << std::endl;
+        cpix.setX(adjustedPixel.x);
+        cpix.setY(adjustedPixel.y);
+
         int x = (cpix.getX() - PADDING + (CELL_WIDTH / 2)) / CELL_WIDTH ;
         int y = ((600 - cpix.getY() - PADDING + (CELL_HEIGHT / 2)) / CELL_HEIGHT);
 

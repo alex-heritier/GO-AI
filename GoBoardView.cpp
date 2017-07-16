@@ -12,7 +12,7 @@ void GoBoardView::draw(sf::RenderWindow &window, int width, int height)
 {
     // Draw board background
     sf::RectangleShape bg(sf::Vector2f(width, height));
-    bg.setPosition({0, 0});
+    bg.setPosition(0, 0);
     bg.setFillColor(sf::Color(220, 180, 74));
     window.draw(bg);
 
