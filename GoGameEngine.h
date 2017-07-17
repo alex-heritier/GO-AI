@@ -7,17 +7,17 @@
 
 using namespace std;
 
-class GoGame {
+class GoGameEngine {
 public:
    //game info
-   GoGameState state;
+   GoGameState &state;
 
    //players
    GoPlayer &black;
    GoPlayer &white;
 
    //constructor
-   GoGame(int size, GoPlayer &black, GoPlayer &white);
+   GoGameEngine(GoGameState &state, GoPlayer &black, GoPlayer &white);
 
    //play game
    void PlayGame(bool display = false);

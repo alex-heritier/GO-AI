@@ -7,14 +7,14 @@
 
 using namespace std;
 
-GoGame::GoGame(int size, GoPlayer &_black, GoPlayer &_white):
-   state(size),
+GoGameEngine::GoGameEngine(GoGameState &state, GoPlayer &_black, GoPlayer &_white):
+   state(state),
    black(_black),
    white(_white)
    {}
 
 //playes whole game
-void GoGame::PlayGame(bool display) {
+void GoGameEngine::PlayGame(bool display) {
    Coordinate nextMove(1,1);
 
    //debug display
@@ -49,7 +49,7 @@ void GoGame::PlayGame(bool display) {
 
 //updates gamestate and returns true if move is legal
 //else returns false
-bool GoGame::PlayMove(Coordinate nextMove, PlayerColor color) {
+bool GoGameEngine::PlayMove(Coordinate nextMove, PlayerColor color) {
    int isLegalMove = true;
 
    //check if coordinate already occupied
@@ -75,7 +75,7 @@ bool GoGame::PlayMove(Coordinate nextMove, PlayerColor color) {
 //effect: remove from board all stones captured due to
 //        a given move and increment the captured stone
 //        counters
-/*void GoGame::captureFromMove(Coordinate move, PlayerColor color) {
+/*void GoGameEngine::captureFromMove(Coordinate move, PlayerColor color) {
    //I don't think any of this is right...............
 
    //check each side of the stone
@@ -94,14 +94,14 @@ bool GoGame::PlayMove(Coordinate nextMove, PlayerColor color) {
 //        - coordinates of stones in the same group as input
 //          stone that have already been checked.
 //output: list of all stones that definitely need to be captured
-/*Coordinates GoGame::getCaptured(Coordinate candidate,
+/*Coordinates GoGameEngine::getCaptured(Coordinate candidate,
    Coordinates checked) {
 
    Coordinates temp;
    return temp;
 }
 
-Coordinates GoGame::getAdjacentEnemies(Coordinate move,
+Coordinates GoGameEngine::getAdjacentEnemies(Coordinate move,
    PlayerColor color) {
 
 }*/
@@ -119,7 +119,7 @@ bool isStarCoord(Coordinate c) {
    val = val && (y == 3 || y == 9 || y == 15);
    return val;
 }
-void GoGame::printGoState(GoGameState gs) {
+void GoGameEngine::printGoState(GoGameState gs) {
    string output;
    for(int y = gs.size-1; y >= 0; y--) {
       for(int x = 0; x < gs.size; x++) {

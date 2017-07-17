@@ -1,4 +1,4 @@
-MODULES = GoGameEngine GoPlayerHuman GoPlayer GoGameState Coordinate Utility GoView GoBoardView GoDataView
+MODULES = GoGame GoGameEngine GoPlayerHuman GoPlayer GoGameState Coordinate Utility GoView GoBoardView GoDataView
 HDRSRC  = ${MODULES:=.h}
 CPPSRC  = ${MODULES:=.cpp} TestGoGame.cpp
 OBJECTS = ${CPPSRC:.cpp=.o}
