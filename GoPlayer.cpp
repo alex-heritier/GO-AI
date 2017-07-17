@@ -7,12 +7,11 @@
 
 using namespace std;
 
+GoPlayer::GoPlayer(PlayerColor _color): color(_color) {} 
+
+//this class should be extened
+//the default functions return junk
 Coordinate GoPlayer::NextAction(GoGameState state) {
-   int x,y;
-   cin >> x;
-   cin >> y;
-   x--;
-   y--;
-   Coordinate c(x,y);
+   Coordinate c(1,1);
    return c;
 }

@@ -1,7 +1,9 @@
 
 #include <iostream>
 
-#include "GoGame.h"
+#include "GoGameEngine.h"
+#include "GoGameState.h"
+#include "GoPlayerHuman.h"
 #include "GoPlayer.h"
 #include "GoView.h"
 
@@ -9,8 +11,8 @@ using namespace std;
 
 int main() {
    //Start new game
-   GoPlayer black;
-   GoPlayer white;
+   GoPlayerHuman black(PlayerColor::BLACK);
+   GoPlayerHuman white(PlayerColor::WHITE);
 
    GoGameState gs(19);
    gs.grid[2][4] = CellState::BLACK;
@@ -23,10 +25,10 @@ int main() {
    GoGame game(19, black, white);
 
    //play game
-   //game.PlayGame(true);
+   game.PlayGame(true);
 
-   GoView view(gs, "Go AI", 1000, 600);
-   view.run();
+   //GoView view(gs, "Go AI", 1000, 600);
+   //view.run();
 
    return 0;
 }
