@@ -17,7 +17,7 @@ void GoBoardView::draw(sf::RenderWindow &window, int width, int height)
     window.draw(bg);
 
     // Draw board lines
-    const int PADDING = 12;
+    const int PADDING = 20;
     const int N = goGameState.size;
     const int CELL_WIDTH = (width - 2 * PADDING) / N;
     const int CELL_HEIGHT = (height - 2 * PADDING) / N;

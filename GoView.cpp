@@ -3,6 +3,7 @@
 #include <thread>
 #include <chrono>
 #include <vector>
+#include <cstdlib>
 
 #include <SFML/Graphics.hpp>
 
@@ -81,10 +82,11 @@ void GoView::TEMPrespondToClick(sf::Event &event)
         Coordinate &cpix = goGameState.clickedPixel;
         std::cout << "Clicked pixel: " << goGameState.clickedPixel << std::endl;
 
-        const int PADDING = 12;
+        const int PADDING = 20;
         const int N = goGameState.size;
         const int CELL_WIDTH = (600 - 2 * PADDING) / N;
         const int CELL_HEIGHT = (600 - 2 * PADDING) / N;
+        const int BIAS = 3; // adjusts the y coordinate slightly for more accuracy
 
         sf::Vector2f adjustedPixel(window.mapPixelToCoords(sf::Vector2i(cpix.getX(), cpix.getY())));
         std::cout << "Adjusted pixel: (" << adjustedPixel.x << ", " << adjustedPixel.y << ")" << std::endl;
@@ -92,7 +94,7 @@ void GoView::TEMPrespondToClick(sf::Event &event)
         cpix.setY(adjustedPixel.y);
 
         int x = (cpix.getX() - PADDING + (CELL_WIDTH / 2)) / CELL_WIDTH ;
-        int y = ((600 - cpix.getY() - PADDING + (CELL_HEIGHT / 2)) / CELL_HEIGHT);
+        int y = ((600 - cpix.getY() - PADDING + (CELL_HEIGHT / 2) - BIAS) / CELL_HEIGHT);
 
         std::cout << "X: " << x << ", Y: " << y << std::endl;
 
@@ -111,6 +113,8 @@ void GoView::TEMPrespondToClick(sf::Event &event)
         std::cout << "X: " << x << ", Y: " << y << std::endl;
 
         goGameState.setCell(coord, player ? CellState::WHITE : CellState::BLACK);
+        goGameState.white_dead = std::rand() % (N * N);
+        goGameState.black_dead = std::rand() % (N * N);
 
         player = !player;
     }
@@ -126,6 +130,7 @@ int GoView::run()
 
         std::vector<sf::Event> eventList;
         processInput(eventList);
+        //respondToInput(eventList);
         updateDisplay();
 
         // sleep to pad frame time
