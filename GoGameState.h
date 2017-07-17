@@ -7,6 +7,7 @@
 
 enum class CellState{EMPTY, BLACK, WHITE};
 enum class PlayerColor{BLACK, WHITE};
+CellState playerColorToCellState(PlayerColor color);
 
 struct GoGameState {
 	//board

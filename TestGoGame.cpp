@@ -1,7 +1,7 @@
 
 #include <iostream>
 
-#include "GoGame.h"
+#include "GoGameEngine.h"
 #include "GoGameState.h"
 #include "GoPlayerHuman.h"
 #include "GoPlayer.h"

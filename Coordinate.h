@@ -2,6 +2,9 @@
 #define COORDINATE_H
 
 #include <iostream>
+#include <vector>
+
+using namespace std;
 
 class Coordinate {
 public:
@@ -15,6 +18,8 @@ private:
     int x;
     int y;
 };
+
+using Coordinates = vector<Coordinate>;
 
 std::ostream &operator<<(std::ostream &out, const Coordinate &coord);
 

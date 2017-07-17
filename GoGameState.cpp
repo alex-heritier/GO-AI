@@ -3,6 +3,15 @@
 
 #include "GoGameState.h"
 
+//utility functions
+CellState playerColorToCellState(PlayerColor color) {
+   if(color == PlayerColor::BLACK)
+      return CellState::BLACK;
+   else
+      return CellState::WHITE;
+}
+
+//class functions
 GoGameState::GoGameState(int size):
    size(size), turn(0), white_dead(0), black_dead(0),
    clickedPixel(0, 0) {
