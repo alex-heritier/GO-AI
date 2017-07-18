@@ -4,11 +4,16 @@
 #include <SFML/Graphics.hpp>
 
 #include "GoBoardView.h"
+#include "GoGame.h"
 #include "GoGameState.h"
 
-GoBoardView::GoBoardView(const GoGameState &gs): goGameState(gs) {}
+GoBoardView::GoBoardView(sf::RenderWindow &window, const GoGameState &gs, int width, int height):
+    window(window),
+    goGameState(gs),
+    width(width),
+    height(height) {}
 
-void GoBoardView::draw(sf::RenderWindow &window, int width, int height)
+void GoBoardView::draw()
 {
     // Draw board background
     sf::RectangleShape bg(sf::Vector2f(width, height));
@@ -39,6 +44,26 @@ void GoBoardView::draw(sf::RenderWindow &window, int width, int height)
     }
     window.draw(horizontalLines, LINE_COUNT, sf::Lines);
 
+    // Draw stone ghost
+    sf::Vector2i mousePosition = sf::Mouse::getPosition(window);
+
+    // Convert pixel to grid then back to pixel so that ghost is consistent with actual stone placement
+    Coordinate ghostStoneCoords = GoGame::mapGridToPixel(
+        GoGame::mapPixelToGrid(Coordinate(mousePosition.x, mousePosition.y),
+            window,
+            goGameState),
+        window,
+        goGameState);
+
+    sf::CircleShape ghostStone(CELL_WIDTH / 2);
+    ghostStone.setPosition(ghostStoneCoords.getX(), ghostStoneCoords.getY());
+    if (goGameState.activePlayer) {
+        ghostStone.setFillColor(sf::Color::White);
+    } else {
+        ghostStone.setFillColor(sf::Color::Black);
+    }
+    window.draw(ghostStone);
+
     // Draw stones
     for (int i = 0; i < goGameState.grid.size(); i++) {
         const std::vector<CellState> &currentRow = goGameState.grid[i];
@@ -51,15 +76,15 @@ void GoBoardView::draw(sf::RenderWindow &window, int width, int height)
 
             int x = PADDING + i * CELL_WIDTH - CELL_WIDTH / 2;
             int y = PADDING + (CELL_HEIGHT * N) - (j * CELL_HEIGHT) - CELL_HEIGHT / 2;
-            sf::CircleShape circle(CELL_WIDTH / 2);
-            circle.setPosition(x, y);
+            sf::CircleShape stone(CELL_WIDTH / 2);
+            stone.setPosition(x, y);
 
             if (currentCell == CellState::BLACK) {
-                circle.setFillColor(sf::Color::Black);
+                stone.setFillColor(sf::Color::Black);
             } else if (currentCell == CellState::WHITE) {
-                circle.setFillColor(sf::Color::White);
+                stone.setFillColor(sf::Color::White);
             }
-            window.draw(circle);
+            window.draw(stone);
         }
     }
 }

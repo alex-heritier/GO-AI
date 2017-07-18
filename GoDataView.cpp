@@ -4,9 +4,13 @@
 #include "GoDataView.h"
 #include "GoGameState.h"
 
-GoDataView::GoDataView(const GoGameState &gs): goGameState(gs) {}
+GoDataView::GoDataView(sf::RenderWindow &window, const GoGameState &gs, int width, int height):
+    window(window),
+    goGameState(gs),
+    width(width),
+    height(height) {}
 
-void GoDataView::draw(sf::RenderWindow &window, int width, int height)
+void GoDataView::draw()
 {
     // Draw background
     sf::RectangleShape bg(sf::Vector2f(400, 600));
@@ -22,7 +26,7 @@ void GoDataView::draw(sf::RenderWindow &window, int width, int height)
     title.setString("Go-AI Data");
     title.setCharacterSize(20);
     title.setStyle(sf::Text::Bold);
-    title.setColor(sf::Color::White);
+    title.setFillColor(sf::Color::White);
     title.setPosition(10, 10);
     window.draw(title);
 
@@ -31,7 +35,7 @@ void GoDataView::draw(sf::RenderWindow &window, int width, int height)
     whiteScore.setString(std::string("White score: ") + std::to_string(goGameState.getBlackDead()));
     whiteScore.setCharacterSize(20);
     whiteScore.setStyle(sf::Text::Bold);
-    whiteScore.setColor(sf::Color::White);
+    whiteScore.setFillColor(sf::Color::White);
     whiteScore.setPosition(10, 40);
     window.draw(whiteScore);
 
@@ -40,7 +44,7 @@ void GoDataView::draw(sf::RenderWindow &window, int width, int height)
     blackScore.setString(std::string("Black score: ") + std::to_string(goGameState.getWhiteDead()));
     blackScore.setCharacterSize(20);
     blackScore.setStyle(sf::Text::Bold);
-    blackScore.setColor(sf::Color::White);
+    blackScore.setFillColor(sf::Color::White);
     blackScore.setPosition(10, 70);
     window.draw(blackScore);
 }

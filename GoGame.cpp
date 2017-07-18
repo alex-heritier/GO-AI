@@ -81,7 +81,7 @@ void GoGame::TEMPrespondToClick(std::vector<sf::Event> &eventList)
 {
     sf::RenderWindow &window = view.getWindow();
 
-    static bool player = false;
+    bool &player = state.activePlayer;
 
     for (sf::Event event : eventList) {
         if (event.type == sf::Event::MouseButtonPressed) {
@@ -94,32 +94,71 @@ void GoGame::TEMPrespondToClick(std::vector<sf::Event> &eventList)
             const int CELL_HEIGHT = (600 - 2 * PADDING) / N;
             const int BIAS = 3; // adjusts the y coordinate slightly for more accuracy
 
-            sf::Vector2f adjustedPixel(window.mapPixelToCoords(sf::Vector2i(cpix.getX(), cpix.getY())));
-            std::cout << "Adjusted pixel: (" << adjustedPixel.x << ", " << adjustedPixel.y << ")" << std::endl;
-            cpix.setX(adjustedPixel.x);
-            cpix.setY(adjustedPixel.y);
+            Coordinate stoneCoords = mapPixelToGrid(cpix, view.getWindow(), state);
 
-            int x = (cpix.getX() - PADDING + (CELL_WIDTH / 2)) / CELL_WIDTH ;
-            int y = ((600 - cpix.getY() - PADDING + (CELL_HEIGHT / 2) - BIAS) / CELL_HEIGHT);
-
-            if (x < 0)
-                x = 0;
-            else if (x >= state.size)
-                x = state.size;
-
-            if (y < 0)
-                y = 0;
-            else if (y >= state.size)
-                y = state.size;
-
-            Coordinate stoneCoord(x, y);
-            std::cout << "X: " << x << ", Y: " << y << std::endl;
-
-            state.setCell(stoneCoord, player ? CellState::WHITE : CellState::BLACK);
+            // Set player scores to random numbers
+            state.setCell(stoneCoords, player ? CellState::WHITE : CellState::BLACK);
             state.white_dead = std::rand() % (30);
             state.black_dead = std::rand() % (25);
 
             player = !player;
         }
     }
+}
+
+Coordinate GoGame::mapPixelToGrid(const Coordinate &coord, const sf::RenderWindow &window, const GoGameState &state)
+{
+    // std::cout << "mapPixelToGrid" << std::endl;
+    const int PADDING = 20;
+    const int N = state.size;
+    const int CELL_WIDTH = (600 - 2 * PADDING) / N;
+    const int CELL_HEIGHT = (600 - 2 * PADDING) / N;
+    const int BIAS = 4; // adjusts the y coordinate slightly for more accuracy
+
+      // adjusts BIAS to scale with screen
+    sf::Vector2f adjustedBias(window.mapCoordsToPixel(sf::Vector2f(0, BIAS)));
+
+    // std::cout << "Adjusted bias: " << adjustedBias.y << std::endl;
+    sf::Vector2f adjustedPixel(window.mapPixelToCoords(sf::Vector2i(coord.getX(), coord.getY() + adjustedBias.y)));
+    // std::cout << "Adjusted pixel: (" << adjustedPixel.x << ", " << adjustedPixel.y << ")" << std::endl;
+    Coordinate cpix(adjustedPixel.x, adjustedPixel.y);
+
+    int x = (cpix.getX() - PADDING + (CELL_WIDTH / 2)) / CELL_WIDTH ;
+    int y = ((600 - cpix.getY() - PADDING + (CELL_HEIGHT / 2) - BIAS) / CELL_HEIGHT);
+
+    if (x < 0)
+        x = 0;
+    else if (x >= state.size)
+        x = state.size;
+
+    if (y < 0)
+        y = 0;
+    else if (y >= state.size)
+        y = state.size;
+
+    // std::cout << "X: " << x << ", Y: " << y << std::endl;
+    return Coordinate(x, y);
+}
+
+Coordinate GoGame::mapGridToPixel(const Coordinate &coord, const sf::RenderWindow &window, const GoGameState &state)
+{
+    // std::cout << "mapGridToPixel" << std::endl;
+    const int PADDING = 20;
+    const int N = state.size;
+    const int CELL_WIDTH = (600 - 2 * PADDING) / N;
+    const int CELL_HEIGHT = (600 - 2 * PADDING) / N;
+    const int BIAS = 3; // adjusts the y coordinate slightly for more accuracy
+
+    Coordinate cpix(coord.getX(), coord.getY());
+    // std::cout << "Moused-over pixel: " << cpix << std::endl;
+
+    int x = cpix.getX() * CELL_WIDTH + PADDING - CELL_WIDTH / 2;
+    int y = PADDING + (N - cpix.getY()) * CELL_HEIGHT - CELL_HEIGHT / 2;
+
+    // std::cout << "X: " << x << ", Y: " << y << std::endl;
+
+    sf::Vector2f adjustedPixel(window.mapPixelToCoords(sf::Vector2i(cpix.getX(), cpix.getY())));
+    // std::cout << "Adjusted pixel: (" << adjustedPixel.x << ", " << adjustedPixel.y << ")" << std::endl;
+
+    return Coordinate(x, y);
 }

@@ -19,8 +19,7 @@ struct GoGameState {
    int white_dead; //number of white stones captured
    int black_dead; //number of black stones captured
 
-   // last clicked pixel
-   mutable Coordinate clickedPixel;
+   mutable bool activePlayer = true;
 
    //constructor
    GoGameState(int);

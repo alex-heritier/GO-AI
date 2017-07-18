@@ -12,6 +12,7 @@ protected:
    PlayerColor color;
 public:
    GoPlayer(PlayerColor _color);
+   virtual ~GoPlayer();
    virtual Coordinate NextAction(GoGameState state);
 };
 

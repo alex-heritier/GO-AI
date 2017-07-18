@@ -7,7 +7,9 @@
 
 using namespace std;
 
-GoPlayer::GoPlayer(PlayerColor _color): color(_color) {} 
+GoPlayer::GoPlayer(PlayerColor _color): color(_color) {}
+
+GoPlayer::~GoPlayer() {}
 
 //this class should be extened
 //the default functions return junk

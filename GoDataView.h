@@ -6,14 +6,18 @@
 
 #include <SFML/Graphics.hpp>
 
+#include "Coordinate.h"
 #include "GoGameState.h"
 
 class GoDataView {
 public:
-    GoDataView(const GoGameState &gs);
-    void draw(sf::RenderWindow &window, int width, int height);
+    GoDataView(sf::RenderWindow &window, const GoGameState &gs, int width, int height);
+    void draw();
 private:
+    sf::RenderWindow &window;
     const GoGameState &goGameState;
+    const int width;
+    const int height;
 };
 
 #endif
