@@ -12,14 +12,24 @@
 
 class GoView {
 public:
+    // Data
+    static constexpr float BOARD_VIEW_WIDTH_RATIO = 0.6;
+    static constexpr float DATA_VIEW_WIDTH_RATIO = BOARD_VIEW_WIDTH_RATIO - 0.4;
+
+    // Methods
     GoView(const GoGameState &gs, const std::string &title, int width, int height, int fps);
     void end();
-    sf::RenderWindow &getWindow();
-    bool isOpen() const;
     void processInput(std::vector<sf::Event> &eventList);
     void updateDisplay();
+    bool isOpen() const;
+    sf::RenderWindow &getWindow();
+
+    static Coordinate mapPixelToGrid(const Coordinate &coord,
+        const sf::RenderWindow &win, const GoGameState &gs, int w, int h);
+    static Coordinate mapGridToPixel(const Coordinate &coord,
+        const sf::RenderWindow &win, const GoGameState &gs, int w, int h);
 private:
-    // data
+    // Data
     sf::RenderWindow window;
     const GoGameState &goGameState;
     std::string title;
@@ -29,7 +39,7 @@ private:
     GoBoardView boardView;
     GoDataView dataView;
 
-    // methods
+    // Methods
     void TEMPrespondToClick(sf::Event &event);
 };
 

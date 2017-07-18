@@ -22,7 +22,6 @@ void GoBoardView::draw()
     window.draw(bg);
 
     // Draw board lines
-    const int PADDING = 20;
     const int N = goGameState.size;
     const int CELL_WIDTH = (width - 2 * PADDING) / N;
     const int CELL_HEIGHT = (height - 2 * PADDING) / N;
@@ -48,19 +47,27 @@ void GoBoardView::draw()
     sf::Vector2i mousePosition = sf::Mouse::getPosition(window);
 
     // Convert pixel to grid then back to pixel so that ghost is consistent with actual stone placement
-    Coordinate ghostStoneCoords = GoGame::mapGridToPixel(
-        GoGame::mapPixelToGrid(Coordinate(mousePosition.x, mousePosition.y),
+    Coordinate ghostStoneCoords = GoView::mapGridToPixel(
+        GoView::mapPixelToGrid(Coordinate(mousePosition.x, mousePosition.y),
             window,
-            goGameState),
+            goGameState,
+            width,
+            height),
         window,
-        goGameState);
+        goGameState,
+        width,
+        height);
 
     sf::CircleShape ghostStone(CELL_WIDTH / 2);
     ghostStone.setPosition(ghostStoneCoords.getX(), ghostStoneCoords.getY());
     if (goGameState.activePlayer) {
-        ghostStone.setFillColor(sf::Color::White);
+        sf::Color white = sf::Color::White;
+        white.a = 0x88;
+        ghostStone.setFillColor(white);
     } else {
-        ghostStone.setFillColor(sf::Color::Black);
+        sf::Color black = sf::Color::Black;
+        black.a = 0x88;
+        ghostStone.setFillColor(black);
     }
     window.draw(ghostStone);
 

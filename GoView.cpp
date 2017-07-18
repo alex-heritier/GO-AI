@@ -8,9 +8,6 @@
 #include "GoDataView.h"
 #include "Utility.h"
 
-static const float BOARD_VIEW_WIDTH_RATIO = 0.6;
-static const float DATA_VIEW_WIDTH_RATIO = 1 - BOARD_VIEW_WIDTH_RATIO;
-
 /* Class methods */
 GoView::GoView(const GoGameState &gs, const std::string &t, int w, int h, int fps):
     window(sf::VideoMode(w, h), t),
@@ -75,4 +72,61 @@ void GoView::updateDisplay()
 void GoView::end()
 {
     window.close();
+}
+
+
+Coordinate GoView::mapPixelToGrid(const Coordinate &coord,
+    const sf::RenderWindow &window, const GoGameState &state, int width, int height)
+{
+    // std::cout << "mapPixelToGrid" << std::endl;
+    const int N = state.size;
+    const int CELL_WIDTH = (width - 2 * GoBoardView::PADDING) / N;
+    const int CELL_HEIGHT = (height - 2 * GoBoardView::PADDING) / N;
+    const int BIAS = 4; // adjusts the y coordinate slightly for more accuracy
+
+      // adjusts BIAS to scale with screen
+    sf::Vector2f adjustedBias(window.mapCoordsToPixel(sf::Vector2f(0, BIAS)));
+
+    // std::cout << "Adjusted bias: " << adjustedBias.y << std::endl;
+    sf::Vector2f adjustedPixel(window.mapPixelToCoords(sf::Vector2i(coord.getX(), coord.getY() + adjustedBias.y)));
+    // std::cout << "Adjusted pixel: (" << adjustedPixel.x << ", " << adjustedPixel.y << ")" << std::endl;
+    Coordinate cpix(adjustedPixel.x, adjustedPixel.y);
+
+    int x = (cpix.getX() - GoBoardView::PADDING + (CELL_WIDTH / 2)) / CELL_WIDTH ;
+    int y = ((height - cpix.getY() - GoBoardView::PADDING + (CELL_HEIGHT / 2) - BIAS) / CELL_HEIGHT);
+
+    if (x < 0)
+        x = 0;
+    else if (x >= state.size)
+        x = state.size;
+
+    if (y < 0)
+        y = 0;
+    else if (y >= state.size)
+        y = state.size;
+
+    // std::cout << "X: " << x << ", Y: " << y << std::endl;
+    return Coordinate(x, y);
+}
+
+Coordinate GoView::mapGridToPixel(const Coordinate &coord,
+    const sf::RenderWindow &window, const GoGameState &state, int width, int height)
+{
+    // std::cout << "mapGridToPixel" << std::endl;
+    const int N = state.size;
+    const int CELL_WIDTH = (width - 2 * GoBoardView::PADDING) / N;
+    const int CELL_HEIGHT = (height - 2 * GoBoardView::PADDING) / N;
+
+    Coordinate cpix(coord.getX(), coord.getY());
+    // std::cout << "Moused-over pixel: " << cpix << std::endl;
+
+    int x = cpix.getX() * CELL_WIDTH + GoBoardView::PADDING - CELL_WIDTH / 2;
+    int y = GoBoardView::PADDING + (N - cpix.getY()) * CELL_HEIGHT - CELL_HEIGHT / 2;
+
+    // std::cout << "X: " << x << ", Y: " << y << std::endl;
+
+    sf::Vector2f adjustedPixel(window.mapPixelToCoords(sf::Vector2i(cpix.getX(), cpix.getY())));
+    // std::cout << "Adjusted pixel: (" << adjustedPixel.x << ", " << adjustedPixel.y << ")" << std::endl;
+
+    return Coordinate(x, y);
 }
