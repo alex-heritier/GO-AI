@@ -5,33 +5,33 @@
 
 #include "Coordinate.h"
 
-enum class CellState{EMPTY, BLACK, WHITE};
-enum class PlayerColor{BLACK, WHITE};
+enum class CellState {EMPTY, BLACK, WHITE};
+enum class PlayerColor {BLACK, WHITE};
 CellState playerColorToCellState(PlayerColor color);
 
 struct GoGameState {
 public:
     // Data
     const int size; // represents vertices, NOT cells
-    int white_dead; //number of white stones captured
-    int black_dead; //number of black stones captured
+    int white_dead; // number of white stones captured
+    int black_dead; // number of black stones captured
+    mutable int turn;
     mutable bool activePlayer = true;
-    int turn;
 
     // Methods
-    GoGameState(int);
+    GoGameState(int size);
     int getWhiteDead() const;
     int getBlackDead() const;
     int endTurn();
     CellState setCell(const Coordinate&, const CellState);
     CellState getCell(const Coordinate&) const;
 private:
-	//board
+	// Data
    std::vector<std::vector<CellState> > grid;
 
+   // Methods
    void killWhite();
    void killBlack();
-
    int getTurn() const;
 };
 

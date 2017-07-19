@@ -105,6 +105,7 @@ void GoGame::TEMPrespondToClick(std::vector<sf::Event> &eventList)
             state.white_dead = std::rand() % (30);
             state.black_dead = std::rand() % (25);
 
+            state.turn++;
             player = !player;
         }
     }

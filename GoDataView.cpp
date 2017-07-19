@@ -27,24 +27,52 @@ void GoDataView::draw()
     title.setCharacterSize(20);
     title.setStyle(sf::Text::Bold);
     title.setFillColor(sf::Color::White);
+    title.setOutlineColor(sf::Color::Black);
+    title.setOutlineThickness(1);
     title.setPosition(10, 10);
     window.draw(title);
 
-    sf::Text whiteScore;
-    whiteScore.setFont(font);
-    whiteScore.setString(std::string("White score: ") + std::to_string(goGameState.getBlackDead()));
-    whiteScore.setCharacterSize(20);
-    whiteScore.setStyle(sf::Text::Bold);
-    whiteScore.setFillColor(sf::Color::White);
-    whiteScore.setPosition(10, 40);
-    window.draw(whiteScore);
+    sf::Text whiteDead;
+    whiteDead.setFont(font);
+    whiteDead.setString(std::string("White dead: ") + std::to_string(goGameState.getWhiteDead()));
+    whiteDead.setCharacterSize(20);
+    whiteDead.setStyle(sf::Text::Bold);
+    whiteDead.setFillColor(sf::Color::White);
+    whiteDead.setOutlineColor(sf::Color::Black);
+    whiteDead.setOutlineThickness(1);
+    whiteDead.setPosition(10, 40);
+    window.draw(whiteDead);
 
-    sf::Text blackScore;
-    blackScore.setFont(font);
-    blackScore.setString(std::string("Black score: ") + std::to_string(goGameState.getWhiteDead()));
-    blackScore.setCharacterSize(20);
-    blackScore.setStyle(sf::Text::Bold);
-    blackScore.setFillColor(sf::Color::White);
-    blackScore.setPosition(10, 70);
-    window.draw(blackScore);
+    sf::Text blackDead;
+    blackDead.setFont(font);
+    blackDead.setString(std::string("Black dead: ") + std::to_string(goGameState.getBlackDead()));
+    blackDead.setCharacterSize(20);
+    blackDead.setStyle(sf::Text::Bold);
+    blackDead.setFillColor(sf::Color::White);
+    blackDead.setOutlineColor(sf::Color::Black);
+    blackDead.setOutlineThickness(1);
+    blackDead.setPosition(10, 70);
+    window.draw(blackDead);
+
+    sf::Text activePlayer;
+    activePlayer.setFont(font);
+    activePlayer.setString(std::string("Active player: ") + std::string(goGameState.activePlayer ? "White" : "Black"));
+    activePlayer.setCharacterSize(20);
+    activePlayer.setStyle(sf::Text::Bold);
+    activePlayer.setFillColor(sf::Color::White);
+    activePlayer.setOutlineColor(sf::Color::Black);
+    activePlayer.setOutlineThickness(1);
+    activePlayer.setPosition(10, 100);
+    window.draw(activePlayer);
+
+    sf::Text turn;
+    turn.setFont(font);
+    turn.setString(std::string("Turn: ") + std::to_string(goGameState.turn));
+    turn.setCharacterSize(20);
+    turn.setStyle(sf::Text::Bold);
+    turn.setFillColor(sf::Color::White);
+    turn.setOutlineColor(sf::Color::Black);
+    turn.setOutlineThickness(1);
+    turn.setPosition(10, 130);
+    window.draw(turn);
 }
