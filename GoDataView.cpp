@@ -4,6 +4,8 @@
 #include "GoDataView.h"
 #include "GoGameState.h"
 
+const std::string GoDataView::FONT_FILE = "/Users/Alex/Desktop/Work/GO-AI/arial.ttf";
+
 GoDataView::GoDataView(sf::RenderWindow &window, const GoGameState &gs, int width, int height):
     window(window),
     goGameState(gs),
@@ -19,8 +21,9 @@ void GoDataView::draw()
     window.draw(bg);
 
     sf::Font font;
-    font.loadFromFile("/Users/Alex/Desktop/Work/GO-AI/arial.ttf");
+    font.loadFromFile(FONT_FILE);
 
+    // Draw data title
     sf::Text title;
     title.setFont(font);
     title.setString("Go-AI Data");
@@ -32,6 +35,7 @@ void GoDataView::draw()
     title.setPosition(10, 10);
     window.draw(title);
 
+    // Draw number of dead white stones
     sf::Text whiteDead;
     whiteDead.setFont(font);
     whiteDead.setString(std::string("White dead: ") + std::to_string(goGameState.getWhiteDead()));
@@ -43,6 +47,7 @@ void GoDataView::draw()
     whiteDead.setPosition(10, 40);
     window.draw(whiteDead);
 
+    // Draw number of dead black stones
     sf::Text blackDead;
     blackDead.setFont(font);
     blackDead.setString(std::string("Black dead: ") + std::to_string(goGameState.getBlackDead()));
@@ -54,6 +59,7 @@ void GoDataView::draw()
     blackDead.setPosition(10, 70);
     window.draw(blackDead);
 
+    // Draw currently active player
     sf::Text activePlayer;
     activePlayer.setFont(font);
     activePlayer.setString(std::string("Active player: ") + std::string(goGameState.activePlayer ? "White" : "Black"));
@@ -65,6 +71,7 @@ void GoDataView::draw()
     activePlayer.setPosition(10, 100);
     window.draw(activePlayer);
 
+    // Draw turn count
     sf::Text turn;
     turn.setFont(font);
     turn.setString(std::string("Turn: ") + std::to_string(goGameState.turn));

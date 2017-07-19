@@ -11,6 +11,10 @@
 
 class GoDataView {
 public:
+    // Data
+    static const std::string FONT_FILE;
+
+    // Methods
     GoDataView(sf::RenderWindow &window, const GoGameState &gs, int width, int height);
     void draw();
 private:

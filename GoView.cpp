@@ -79,23 +79,22 @@ Coordinate GoView::mapPixelToGrid(const Coordinate &coord,
     const sf::RenderWindow &window, const GoGameState &state, int width, int height)
 {
     // std::cout << "mapPixelToGrid" << std::endl;
-    const int N = state.size;
-    const int CELL_WIDTH = (width - 2 * GoBoardView::PADDING) / (N - 1);
-    const int CELL_HEIGHT = (height - 2 * GoBoardView::PADDING) / (N - 1);
-    const int BIAS = 4; // adjusts the y coordinate slightly for more accuracy
-    // WARN: BIAS is adjusted to work with N = 19 boards
-    // BIAS should be adjusted for different board sizes
+    const int N = state.size - 1;
+    const int CELL_WIDTH = (width - 2 * GoBoardView::BASE_PADDING) / N;
+    const int CELL_HEIGHT = (height - 2 * GoBoardView::BASE_PADDING) / N;
+    const int GRID_WIDTH = CELL_WIDTH * N;
+    const int GRID_HEIGHT = CELL_HEIGHT * N;
+    const int X_PADDING = GoBoardView::getXPadding(N, width);
+    const int Y_PADDING = GoBoardView::getYPadding(N, height);
+    const int TOTAL_X_PAD = GoBoardView::BASE_PADDING + X_PADDING;
+    const int TOTAL_Y_PAD = GoBoardView::BASE_PADDING + Y_PADDING;
 
-      // adjusts BIAS to scale with screen
-    sf::Vector2f adjustedBias(window.mapCoordsToPixel(sf::Vector2f(0, BIAS)));
-
-    // std::cout << "Adjusted bias: " << adjustedBias.y << std::endl;
-    sf::Vector2f adjustedPixel(window.mapPixelToCoords(sf::Vector2i(coord.getX(), coord.getY() + adjustedBias.y)));
+    sf::Vector2f adjustedPixel(window.mapPixelToCoords(sf::Vector2i(coord.getX(), coord.getY())));
     // std::cout << "Adjusted pixel: (" << adjustedPixel.x << ", " << adjustedPixel.y << ")" << std::endl;
     Coordinate cpix(adjustedPixel.x, adjustedPixel.y);
 
-    int x = (cpix.getX() - GoBoardView::PADDING + (CELL_WIDTH / 2)) / CELL_WIDTH ;
-    int y = ((height - cpix.getY() - GoBoardView::PADDING + (CELL_HEIGHT / 2) - BIAS) / CELL_HEIGHT);
+    int x = (cpix.getX() - TOTAL_X_PAD + (CELL_WIDTH / 2)) / CELL_WIDTH ;
+    int y = ((height - cpix.getY() - TOTAL_Y_PAD + (CELL_HEIGHT / 2)) / CELL_HEIGHT);
 
     if (x < 0)
         x = 0;
@@ -115,14 +114,18 @@ Coordinate GoView::mapGridToPixel(const Coordinate &coord,
     const sf::RenderWindow &window, const GoGameState &state, int width, int height)
 {
     // std::cout << "mapGridToPixel" << std::endl;
-    const int N = state.size;
-    const int CELL_WIDTH = (width - 2 * GoBoardView::PADDING) / (N - 1);
-    const int CELL_HEIGHT = (height - 2 * GoBoardView::PADDING) / (N - 1);
+    const int N = state.size - 1;
+    const int CELL_WIDTH = (width - 2 * GoBoardView::BASE_PADDING) / N;
+    const int CELL_HEIGHT = (height - 2 * GoBoardView::BASE_PADDING) / N;
+    const int X_PADDING = GoBoardView::getXPadding(N, width);
+    const int Y_PADDING = GoBoardView::getYPadding(N, height);
+    const int TOTAL_X_PAD = GoBoardView::BASE_PADDING + X_PADDING;
+    const int TOTAL_Y_PAD = GoBoardView::BASE_PADDING + Y_PADDING;
 
     // std::cout << "Moused-over pixel: " << cpix << std::endl;
 
-    int x = coord.getX() * CELL_WIDTH + GoBoardView::PADDING - CELL_WIDTH / 2;
-    int y = GoBoardView::PADDING + (N - 1 - coord.getY()) * CELL_HEIGHT - CELL_HEIGHT / 2;
+    int x = coord.getX() * CELL_WIDTH + TOTAL_X_PAD - CELL_WIDTH / 2;
+    int y = TOTAL_Y_PAD + (N - coord.getY()) * CELL_HEIGHT - CELL_HEIGHT / 2;
 
     // std::cout << "X: " << x << ", Y: " << y << std::endl;
 

@@ -88,9 +88,9 @@ void GoGame::TEMPrespondToClick(std::vector<sf::Event> &eventList)
             Coordinate cpix(event.mouseButton.x, event.mouseButton.y);
             // std::cout << "Clicked pixel: " << cpix << std::endl;
 
-            const int N = state.size;
-            const int CELL_WIDTH = (VIEW_WIDTH * GoView::BOARD_VIEW_WIDTH_RATIO - 2 * GoBoardView::PADDING) / (N - 1);
-            const int CELL_HEIGHT = (VIEW_HEIGHT - 2 * GoBoardView::PADDING) / (N - 1);
+            const int N = state.size - 1;
+            const int CELL_WIDTH = (VIEW_WIDTH * GoView::BOARD_VIEW_WIDTH_RATIO - 2 * GoBoardView::BASE_PADDING) / N;
+            const int CELL_HEIGHT = (VIEW_HEIGHT - 2 * GoBoardView::BASE_PADDING) / N;
 
             Coordinate stoneCoords = GoView::mapPixelToGrid(cpix,
                 view.getWindow(),
