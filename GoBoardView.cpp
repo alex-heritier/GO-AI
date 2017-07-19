@@ -91,6 +91,9 @@ void GoBoardView::draw()
             } else if (currentCell == CellState::WHITE) {
                 stone.setFillColor(sf::Color::White);
             }
+            sf::Color outlineColor(0x00, 0x00, 0x00);
+            stone.setOutlineColor(outlineColor);
+            stone.setOutlineThickness(-1.5);
             window.draw(stone);
         }
     }

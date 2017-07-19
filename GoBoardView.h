@@ -11,7 +11,7 @@
 class GoBoardView {
 public:
     // Data
-    static const int PADDING = 20;
+    static const int PADDING = 30;
 
     // Methods
     GoBoardView(sf::RenderWindow &window, const GoGameState &gs, int width, int height);

@@ -54,14 +54,14 @@ void GoView::updateDisplay()
     window.clear();
 
     // draw the Go board
-    sf::View v1(sf::FloatRect(0, 0, 0.6 * width, height));
-    v1.setViewport(sf::FloatRect(0, 0, 0.6f, 1));
+    sf::View v1(sf::FloatRect(0, 0, BOARD_VIEW_WIDTH_RATIO * width, height));
+    v1.setViewport(sf::FloatRect(0, 0, BOARD_VIEW_WIDTH_RATIO, 1));
     window.setView(v1);
     boardView.draw();
 
     // draw the game data
-    sf::View v2(sf::FloatRect(0, 0, 0.4 * width, height));
-    v2.setViewport(sf::FloatRect(0.6f, 0, 0.4f, 1));
+    sf::View v2(sf::FloatRect(0, 0, DATA_VIEW_WIDTH_RATIO * width, height));
+    v2.setViewport(sf::FloatRect(BOARD_VIEW_WIDTH_RATIO, 0, DATA_VIEW_WIDTH_RATIO, 1));
     window.setView(v2);
     dataView.draw();
 
@@ -83,6 +83,8 @@ Coordinate GoView::mapPixelToGrid(const Coordinate &coord,
     const int CELL_WIDTH = (width - 2 * GoBoardView::PADDING) / N;
     const int CELL_HEIGHT = (height - 2 * GoBoardView::PADDING) / N;
     const int BIAS = 4; // adjusts the y coordinate slightly for more accuracy
+    // WARN: BIAS is adjusted to work with N = 19 boards
+    // BIAS should be adjusted for different board sizes
 
       // adjusts BIAS to scale with screen
     sf::Vector2f adjustedBias(window.mapCoordsToPixel(sf::Vector2f(0, BIAS)));
@@ -117,16 +119,12 @@ Coordinate GoView::mapGridToPixel(const Coordinate &coord,
     const int CELL_WIDTH = (width - 2 * GoBoardView::PADDING) / N;
     const int CELL_HEIGHT = (height - 2 * GoBoardView::PADDING) / N;
 
-    Coordinate cpix(coord.getX(), coord.getY());
     // std::cout << "Moused-over pixel: " << cpix << std::endl;
 
-    int x = cpix.getX() * CELL_WIDTH + GoBoardView::PADDING - CELL_WIDTH / 2;
-    int y = GoBoardView::PADDING + (N - cpix.getY()) * CELL_HEIGHT - CELL_HEIGHT / 2;
+    int x = coord.getX() * CELL_WIDTH + GoBoardView::PADDING - CELL_WIDTH / 2;
+    int y = GoBoardView::PADDING + (N - coord.getY()) * CELL_HEIGHT - CELL_HEIGHT / 2;
 
     // std::cout << "X: " << x << ", Y: " << y << std::endl;
-
-    sf::Vector2f adjustedPixel(window.mapPixelToCoords(sf::Vector2i(cpix.getX(), cpix.getY())));
-    // std::cout << "Adjusted pixel: (" << adjustedPixel.x << ", " << adjustedPixel.y << ")" << std::endl;
 
     return Coordinate(x, y);
 }

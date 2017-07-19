@@ -14,7 +14,7 @@ class GoView {
 public:
     // Data
     static constexpr float BOARD_VIEW_WIDTH_RATIO = 0.6;
-    static constexpr float DATA_VIEW_WIDTH_RATIO = BOARD_VIEW_WIDTH_RATIO - 0.4;
+    static constexpr float DATA_VIEW_WIDTH_RATIO = 1 - BOARD_VIEW_WIDTH_RATIO;
 
     // Methods
     GoView(const GoGameState &gs, const std::string &title, int width, int height, int fps);

@@ -38,12 +38,12 @@ GoGame::~GoGame()
 
 void GoGame::debugSetup()
 {
-    state.grid[2][4] = CellState::BLACK;
-    state.grid[4][2] = CellState::WHITE;
-    state.grid[12][9] = CellState::BLACK;
-    state.grid[1][18] = CellState::WHITE;
-    state.grid[7][7] = CellState::BLACK;
-    state.grid[15][12] = CellState::WHITE;
+    state.grid[std::rand() % GRID_SIZE][std::rand() % GRID_SIZE] = CellState::BLACK;
+    state.grid[std::rand() % GRID_SIZE][std::rand() % GRID_SIZE] = CellState::WHITE;
+    state.grid[std::rand() % GRID_SIZE][std::rand() % GRID_SIZE] = CellState::BLACK;
+    state.grid[std::rand() % GRID_SIZE][std::rand() % GRID_SIZE] = CellState::WHITE;
+    state.grid[std::rand() % GRID_SIZE][std::rand() % GRID_SIZE] = CellState::BLACK;
+    state.grid[std::rand() % GRID_SIZE][std::rand() % GRID_SIZE] = CellState::WHITE;
 }
 
 /* Helper function for GoGame::play() */
@@ -86,13 +86,11 @@ void GoGame::TEMPrespondToClick(std::vector<sf::Event> &eventList)
     for (sf::Event event : eventList) {
         if (event.type == sf::Event::MouseButtonPressed) {
             Coordinate cpix(event.mouseButton.x, event.mouseButton.y);
-            std::cout << "Clicked pixel: " << cpix << std::endl;
+            // std::cout << "Clicked pixel: " << cpix << std::endl;
 
-            const int PADDING = 20;
             const int N = state.size;
-            const int CELL_WIDTH = (600 - 2 * PADDING) / N;
-            const int CELL_HEIGHT = (600 - 2 * PADDING) / N;
-            const int BIAS = 3; // adjusts the y coordinate slightly for more accuracy
+            const int CELL_WIDTH = (VIEW_WIDTH * GoView::BOARD_VIEW_WIDTH_RATIO - 2 * GoBoardView::PADDING) / N;
+            const int CELL_HEIGHT = (VIEW_HEIGHT - 2 * GoBoardView::PADDING) / N;
 
             Coordinate stoneCoords = GoView::mapPixelToGrid(cpix,
                 view.getWindow(),
