@@ -23,25 +23,25 @@ void GoBoardView::draw()
 
     // Draw board lines
     const int N = goGameState.size;
-    const int CELL_WIDTH = (width - 2 * PADDING) / N;
-    const int CELL_HEIGHT = (height - 2 * PADDING) / N;
-    const int LINE_COUNT = 2 * (N + 1);
+    const int CELL_WIDTH = (width - 2 * PADDING) / (N - 1);
+    const int CELL_HEIGHT = (height - 2 * PADDING) / (N - 1);
+    const int VERTEX_COUNT = 2 * N;
 
     // Draw vertical lines
-    sf::Vertex verticalLines[LINE_COUNT];
-    for (int i = 0; i < N + 1; i++) {
+    sf::Vertex verticalLines[VERTEX_COUNT];
+    for (int i = 0; i < N; i++) {
         verticalLines[2 * i] = sf::Vertex(sf::Vector2f(PADDING + CELL_WIDTH * i, PADDING), sf::Color::Black);
-        verticalLines[2 * i + 1] = sf::Vertex(sf::Vector2f(PADDING + CELL_WIDTH * i, PADDING + CELL_HEIGHT * N), sf::Color::Black);
+        verticalLines[2 * i + 1] = sf::Vertex(sf::Vector2f(PADDING + CELL_WIDTH * i, PADDING + CELL_HEIGHT * (N - 1)), sf::Color::Black);
     }
-    window.draw(verticalLines, LINE_COUNT, sf::Lines);
+    window.draw(verticalLines, VERTEX_COUNT, sf::Lines);
 
     // Draw horizontal lines
-    sf::Vertex horizontalLines[LINE_COUNT];
-    for (int i = 0; i < N + 1; i++) {
+    sf::Vertex horizontalLines[VERTEX_COUNT];
+    for (int i = 0; i < N; i++) {
         horizontalLines[2 * i] = sf::Vertex(sf::Vector2f(PADDING, PADDING + CELL_HEIGHT * i), sf::Color::Black);
-        horizontalLines[2 * i + 1] = sf::Vertex(sf::Vector2f(PADDING + CELL_WIDTH * N, PADDING + CELL_HEIGHT * i), sf::Color::Black);
+        horizontalLines[2 * i + 1] = sf::Vertex(sf::Vector2f(PADDING + CELL_WIDTH * (N - 1), PADDING + CELL_HEIGHT * i), sf::Color::Black);
     }
-    window.draw(horizontalLines, LINE_COUNT, sf::Lines);
+    window.draw(horizontalLines, VERTEX_COUNT, sf::Lines);
 
     // Draw stone ghost
     sf::Vector2i mousePosition = sf::Mouse::getPosition(window);
@@ -72,17 +72,15 @@ void GoBoardView::draw()
     window.draw(ghostStone);
 
     // Draw stones
-    for (int i = 0; i < goGameState.grid.size(); i++) {
-        const std::vector<CellState> &currentRow = goGameState.grid[i];
-
-        for (int j = 0; j < currentRow.size(); j++) {
-            const CellState &currentCell = currentRow[j];
+    for (int i = 0; i < goGameState.size; i++) {
+        for (int j = 0; j < goGameState.size; j++) {
+            const CellState &currentCell = goGameState.getCell(Coordinate(i, j));
 
             if (currentCell == CellState::EMPTY)
                 continue;
 
             int x = PADDING + i * CELL_WIDTH - CELL_WIDTH / 2;
-            int y = PADDING + (CELL_HEIGHT * N) - (j * CELL_HEIGHT) - CELL_HEIGHT / 2;
+            int y = PADDING + (CELL_HEIGHT * (N - 1)) - (j * CELL_HEIGHT) - CELL_HEIGHT / 2;
             sf::CircleShape stone(CELL_WIDTH / 2);
             stone.setPosition(x, y);
 

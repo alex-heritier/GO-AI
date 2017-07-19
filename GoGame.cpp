@@ -14,7 +14,7 @@
 #include "GoPlayerHuman.h"
 #include "GoView.h"
 
-static const int GRID_SIZE = 19;
+static const int GRID_SIZE = 20;
 static const int VIEW_WIDTH = 1000;
 static const int VIEW_HEIGHT = 600;
 static const int FPS = 60;
@@ -38,12 +38,12 @@ GoGame::~GoGame()
 
 void GoGame::debugSetup()
 {
-    state.grid[std::rand() % GRID_SIZE][std::rand() % GRID_SIZE] = CellState::BLACK;
-    state.grid[std::rand() % GRID_SIZE][std::rand() % GRID_SIZE] = CellState::WHITE;
-    state.grid[std::rand() % GRID_SIZE][std::rand() % GRID_SIZE] = CellState::BLACK;
-    state.grid[std::rand() % GRID_SIZE][std::rand() % GRID_SIZE] = CellState::WHITE;
-    state.grid[std::rand() % GRID_SIZE][std::rand() % GRID_SIZE] = CellState::BLACK;
-    state.grid[std::rand() % GRID_SIZE][std::rand() % GRID_SIZE] = CellState::WHITE;
+    state.setCell(Coordinate(std::rand() % GRID_SIZE, std::rand() % GRID_SIZE), CellState::BLACK);
+    state.setCell(Coordinate(std::rand() % GRID_SIZE, std::rand() % GRID_SIZE), CellState::WHITE);
+    state.setCell(Coordinate(std::rand() % GRID_SIZE, std::rand() % GRID_SIZE), CellState::BLACK);
+    state.setCell(Coordinate(std::rand() % GRID_SIZE, std::rand() % GRID_SIZE), CellState::WHITE);
+    state.setCell(Coordinate(std::rand() % GRID_SIZE, std::rand() % GRID_SIZE), CellState::BLACK);
+    state.setCell(Coordinate(std::rand() % GRID_SIZE, std::rand() % GRID_SIZE), CellState::WHITE);
 }
 
 /* Helper function for GoGame::play() */
@@ -89,14 +89,16 @@ void GoGame::TEMPrespondToClick(std::vector<sf::Event> &eventList)
             // std::cout << "Clicked pixel: " << cpix << std::endl;
 
             const int N = state.size;
-            const int CELL_WIDTH = (VIEW_WIDTH * GoView::BOARD_VIEW_WIDTH_RATIO - 2 * GoBoardView::PADDING) / N;
-            const int CELL_HEIGHT = (VIEW_HEIGHT - 2 * GoBoardView::PADDING) / N;
+            const int CELL_WIDTH = (VIEW_WIDTH * GoView::BOARD_VIEW_WIDTH_RATIO - 2 * GoBoardView::PADDING) / (N - 1);
+            const int CELL_HEIGHT = (VIEW_HEIGHT - 2 * GoBoardView::PADDING) / (N - 1);
 
             Coordinate stoneCoords = GoView::mapPixelToGrid(cpix,
                 view.getWindow(),
                 state,
                 VIEW_WIDTH * GoView::BOARD_VIEW_WIDTH_RATIO,
                 VIEW_HEIGHT);
+
+            // std::cout << "X: " << stoneCoords.getX() << ", Y: " << stoneCoords.getY() << std::endl;
 
             // Set player scores to random numbers
             state.setCell(stoneCoords, player ? CellState::WHITE : CellState::BLACK);

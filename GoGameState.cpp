@@ -15,9 +15,9 @@ CellState playerColorToCellState(PlayerColor color) {
 GoGameState::GoGameState(int size):
    size(size), turn(0), white_dead(0), black_dead(0)
 {
-    for (int i = 0; i < size + 1; i++) {
+    for (int i = 0; i < size; i++) {
         grid.push_back(std::vector<CellState>());
-        for (int j = 0; j < size + 1; j++) {
+        for (int j = 0; j < size; j++) {
             grid[i].push_back(CellState::EMPTY);
         }
     }
@@ -32,8 +32,8 @@ CellState GoGameState::setCell(const Coordinate &coord, const CellState cs)
     int x = coord.getX();
     int y = coord.getY();
 
-    if (x < 0 || x > size || y < 0 || y > size) {
-        std::cerr << "ERROR: GoGameState::setCell - coordinates out of bounds" << std::endl;
+    if (x < 0 || x >= size || y < 0 || y >= size) {
+        std::cerr << "ERROR: GoGameState::setCell - coordinates out of bounds: " << coord << std::endl;
     }
 
     CellState oldState = grid[x][y];
@@ -50,8 +50,8 @@ CellState GoGameState::getCell(const Coordinate &coord) const
     int x = coord.getX();
     int y = coord.getY();
 
-    if (x < 0 || x > size || y < 0 || y > size) {
-        std::cerr << "ERROR: GoGameState::setCell - coordinates out of bounds" << std::endl;
+    if (x < 0 || x >= size || y < 0 || y >= size) {
+        std::cerr << "ERROR: GoGameState::setCell - coordinates out of bounds: " << coord << std::endl;
     }
 
     return grid[x][y];

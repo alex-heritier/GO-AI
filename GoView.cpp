@@ -80,8 +80,8 @@ Coordinate GoView::mapPixelToGrid(const Coordinate &coord,
 {
     // std::cout << "mapPixelToGrid" << std::endl;
     const int N = state.size;
-    const int CELL_WIDTH = (width - 2 * GoBoardView::PADDING) / N;
-    const int CELL_HEIGHT = (height - 2 * GoBoardView::PADDING) / N;
+    const int CELL_WIDTH = (width - 2 * GoBoardView::PADDING) / (N - 1);
+    const int CELL_HEIGHT = (height - 2 * GoBoardView::PADDING) / (N - 1);
     const int BIAS = 4; // adjusts the y coordinate slightly for more accuracy
     // WARN: BIAS is adjusted to work with N = 19 boards
     // BIAS should be adjusted for different board sizes
@@ -100,12 +100,12 @@ Coordinate GoView::mapPixelToGrid(const Coordinate &coord,
     if (x < 0)
         x = 0;
     else if (x >= state.size)
-        x = state.size;
+        x = state.size - 1;
 
     if (y < 0)
         y = 0;
     else if (y >= state.size)
-        y = state.size;
+        y = state.size - 1;
 
     // std::cout << "X: " << x << ", Y: " << y << std::endl;
     return Coordinate(x, y);
@@ -116,13 +116,13 @@ Coordinate GoView::mapGridToPixel(const Coordinate &coord,
 {
     // std::cout << "mapGridToPixel" << std::endl;
     const int N = state.size;
-    const int CELL_WIDTH = (width - 2 * GoBoardView::PADDING) / N;
-    const int CELL_HEIGHT = (height - 2 * GoBoardView::PADDING) / N;
+    const int CELL_WIDTH = (width - 2 * GoBoardView::PADDING) / (N - 1);
+    const int CELL_HEIGHT = (height - 2 * GoBoardView::PADDING) / (N - 1);
 
     // std::cout << "Moused-over pixel: " << cpix << std::endl;
 
     int x = coord.getX() * CELL_WIDTH + GoBoardView::PADDING - CELL_WIDTH / 2;
-    int y = GoBoardView::PADDING + (N - coord.getY()) * CELL_HEIGHT - CELL_HEIGHT / 2;
+    int y = GoBoardView::PADDING + (N - 1 - coord.getY()) * CELL_HEIGHT - CELL_HEIGHT / 2;
 
     // std::cout << "X: " << x << ", Y: " << y << std::endl;
 
